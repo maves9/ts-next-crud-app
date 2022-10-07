@@ -1,3 +1,7 @@
+# Next.js CRUD App with prisma
+
+## The App Concept
+A collections of idiot quotes
 
 ## Getting Started
 

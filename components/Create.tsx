@@ -48,6 +48,13 @@ const Create: FunctionComponent<{moreIdiots: Dispatch<Idiot>}> = ({ moreIdiots }
                     padding: 16px;
                     border: #ccc solid;
                 }
+                button {
+                    background: #14359a;
+                    color: #fff;
+                    border: 0;
+                    font-weight: 600;
+                    cursor: pointer;
+                }
             `}</style>
             <form onSubmit={addQuote}>
                 <input
@@ -68,7 +75,7 @@ const Create: FunctionComponent<{moreIdiots: Dispatch<Idiot>}> = ({ moreIdiots }
                     rows={2}
                     value={state.quote}
                 />
-                <button>Add quote</button>
+                <button>Add Quote</button>
             </form>
         </>
     )
