@@ -17,10 +17,14 @@ export const getStaticProps = async () => {
 }
 
 const Home: NextPage<{initialIdiots: Idiot[]}> = ({ initialIdiots }) => {
-  const [idiots, setIdiots] = useState(initialIdiots)
+  const [idiots, setIdiots] = useState<Idiot[]>(initialIdiots)
 
-  const moreIdiots = (newIdiot: Idiot) => {
-    setIdiots([...idiots, newIdiot])
+  const moreIdiots = (addedIdiot: Idiot) => {
+    setIdiots([...idiots, addedIdiot])
+  }
+
+  const removeIdiot = (removedIdiot: Idiot) => {
+    setIdiots(idiots.filter((item) => item.id !== removedIdiot.id))
   }
 
   return (
@@ -31,9 +35,22 @@ const Home: NextPage<{initialIdiots: Idiot[]}> = ({ initialIdiots }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <List idiots={idiots}/>
+      <style jsx global>{`
+        body {
+          background: #222;
+          color: #aaa;
+        }
+        main {
+          max-width: 600px;
+          margin: 0 auto;
+        }
+      `}</style>
 
-      <Create moreIdiots={moreIdiots} />
+      <main>
+        <List idiots={idiots} removeIdiot={removeIdiot} />
+
+        <Create moreIdiots={moreIdiots} />
+      </main>
     </div>
   )
 }

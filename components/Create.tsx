@@ -1,22 +1,25 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, FunctionComponent, FormEvent, Dispatch } from 'react'
 
-const Create = ({ moreIdiots }) => {
-    const [state, setState] = useState({'name': '', 'quote': ''})
+import type { Idiot, NewIdiot } from '../types/types'
 
-    const addQuote = async (e) => {
-        e.preventDefault();
+const Create: FunctionComponent<{moreIdiots: Dispatch<Idiot>}> = ({ moreIdiots }) => {
+    const [state, setState] = useState<NewIdiot>({'name': '', 'quote': ''})
+
+    const addQuote = async (event: FormEvent) => {
+        event.preventDefault()
+
         try {
             const response = await fetch(`/api/post`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(state),
+                body: JSON.stringify(state)
             })
 
-            const newData = await response.json()
+            const addedIdiot: Idiot = await response.json()
 
-            moreIdiots(newData)
+            moreIdiots(addedIdiot)
         } catch (error) {
-            console.error(error);
+            console.error(error)
         }
     }
 
@@ -24,32 +27,48 @@ const Create = ({ moreIdiots }) => {
         setState({'name': '', 'quote': ''})
     }, [moreIdiots])
 
-    const handleChange = (event) => {
-        const name = event.target.name;
-        const value = event.target.value;
+    const handleChange = ({target} : {target: HTMLInputElement | HTMLTextAreaElement}) => {
+        const {name, value} = target
         setState({ ...state, [name]: value });
     }
 
     return (
-        <form onSubmit={addQuote}>
-            <input
-                autoFocus
-                name="name"
-                onInput={handleChange}
-                placeholder="Name"
-                type="text"
-                value={state.name}
-            />
-            <textarea
-                cols={50}
-                name="quote"
-                onChange={handleChange}
-                placeholder="Quote"
-                rows={2}
-                value={state.quote}
-            />
-            <button>Add quote</button>
-        </form>
+        <>
+            <style jsx>{`
+                form {
+                    display: flex;
+                    flex-direction: column;
+                    padding: 40px;
+                    gap: 16px;
+                }
+                input,
+                textarea,
+                button {
+                    padding: 8px;
+                }
+            `}</style>
+            <form onSubmit={addQuote}>
+                <input
+                    autoFocus
+                    required
+                    name="name"
+                    onChange={handleChange}
+                    placeholder="Name"
+                    type="text"
+                    value={state.name}
+                />
+                <textarea
+                    cols={50}
+                    required
+                    name="quote"
+                    onChange={handleChange}
+                    placeholder="Quote"
+                    rows={2}
+                    value={state.quote}
+                />
+                <button>Add quote</button>
+            </form>
+        </>
     )
 }
 
