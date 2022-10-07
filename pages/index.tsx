@@ -1,6 +1,5 @@
 import type { NextPage, GetStaticPaths, GetStaticProps} from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
 import { PrismaClient } from '@prisma/client'
 import { useState } from 'react'
 import Create from '../components/Create'
