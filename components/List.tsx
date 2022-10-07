@@ -14,22 +14,53 @@ const List: FunctionComponent<{ idiots: Idiot[], removeIdiot: Dispatch<Idiot> }>
 
     return (
         <>
-            <ul>
-                {idiots.map( (idiot, index) => (
-                    <li key={index}>
-                        <figure>
-                            <button onClick={() => handleDelete(idiot.id)}>🗑️🚽</button>
-                            <blockquote>
-                                {idiot.quote}
-                            </blockquote>
-                            <figcaption>
-                                - By: <cite>{idiot.name}</cite>
-                            </figcaption>
-                            <hr />
-                        </figure>
-                    </li>
-                ))}
-            </ul>
+            <style jsx>{`
+                div {
+                    flex: 1;
+                }
+                figure {
+                    margin: 0;
+                    padding: 16px;
+                    background: #14359a;
+                    border-radius: 8px;
+                }
+                ul {
+                    list-style: none;
+                    display: flex;
+                    flex-direction: column;
+                    margin: 0;
+                    padding: 0;
+                    gap: 16px;
+                    padding: 40px;
+                    max-height: ;
+                }
+                figcaption {
+                    display: flex;
+                    justify-content: space-between;
+                    font-size: 12px;
+                }
+                blockquote {
+                    margin: 0;
+                }
+            `}</style>
+
+            <div>
+                <ul>
+                    {idiots.map( (idiot, index) => (
+                        <li key={index}>
+                            <figure>
+                                <blockquote>
+                                    {idiot.quote}
+                                </blockquote>
+                                <figcaption>
+                                    <p>By: <cite>{idiot.name}</cite></p>
+                                    <span className='list__button--remove' onClick={() => handleDelete(idiot.id)}>🗑️🚽</span>
+                                </figcaption>
+                            </figure>
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </>
     )
 }
