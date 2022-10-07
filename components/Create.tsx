@@ -44,7 +44,9 @@ const Create: FunctionComponent<{moreIdiots: Dispatch<Idiot>}> = ({ moreIdiots }
                 input,
                 textarea,
                 button {
-                    padding: 8px;
+                    border-radius: 8px;
+                    padding: 16px;
+                    border: #ccc solid;
                 }
             `}</style>
             <form onSubmit={addQuote}>

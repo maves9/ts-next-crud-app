@@ -32,7 +32,6 @@ const List: FunctionComponent<{ idiots: Idiot[], removeIdiot: Dispatch<Idiot> }>
                     padding: 0;
                     gap: 16px;
                     padding: 40px;
-                    max-height: ;
                 }
                 figcaption {
                     display: flex;
@@ -41,6 +40,9 @@ const List: FunctionComponent<{ idiots: Idiot[], removeIdiot: Dispatch<Idiot> }>
                 }
                 blockquote {
                     margin: 0;
+                }
+                .list__button--remove {
+                    cursor: pointer;
                 }
             `}</style>
 
