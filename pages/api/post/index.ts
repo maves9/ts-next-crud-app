@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { PrismaClient } from '@prisma/client'
+import { Idiot } from '../../../types/types'
 
 const prisma = new PrismaClient()
 
@@ -8,9 +9,9 @@ const prisma = new PrismaClient()
 // Optional fields in body: quote
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
-    const { name, quote } = req.body
+    const { name, quote }: Idiot = req.body
 
-    const result = await prisma.idiot.create({
+    const result: Idiot = await prisma.idiot.create({
       data: {
         name: name,
         quote: quote,
