@@ -12,8 +12,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         const quote: Quote = await prisma.quote.delete({
             where: { id: quoteId },
         })
-        console.log(quote);
-        
+
         res.json(quote)
     } else {
         throw new Error(
