@@ -9,9 +9,11 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     const quoteId = req.query.id
 
     if (req.method === 'DELETE') {
-        const quote = await prisma.quote.delete({
-            where: { id: Number(quoteId) },
+        const quote: Quote = await prisma.quote.delete({
+            where: { id: quoteId },
         })
+        console.log(quote);
+        
         res.json(quote)
     } else {
         throw new Error(
