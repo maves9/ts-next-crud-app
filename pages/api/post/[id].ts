@@ -15,8 +15,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
         res.json(quote)
     } else {
-        throw new Error(
-        `The HTTP ${req.method} method is not supported at this route.`
-        )
+        throw new Error(`The HTTP ${req.method} method is not supported at this route.`)
     }
 }
