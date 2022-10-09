@@ -12,11 +12,10 @@ datasource db {
 
 model Quote {
   id     String @id @default(auto()) @map("_id") @db.ObjectId
-  author User   @relation(fields: [userId], references: [id])
-  idiot  String
+  author User? @relation(fields: [userId], references: [id]) 
+  userId String?
   name   String
   quote  String
-  userId String
 }
 
 model User {
