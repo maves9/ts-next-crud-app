@@ -1,15 +1,15 @@
 
-import { Idiot } from '../types/types'
+import { Quote } from '../types/types'
 import type { FunctionComponent, Dispatch } from 'react'
 
-const List: FunctionComponent<{ idiots: Idiot[], removeIdiot: Dispatch<Idiot> }> = ({ idiots, removeIdiot }) => {
+const List: FunctionComponent<{ quotes: Quote[], removeQuote: Dispatch<Quote> }> = ({ quotes, removeQuote }) => {
     const handleDelete = async (id: number) => {
         const response = await fetch(`/api/post/${id}`, { method: 'DELETE' })
-        const removedIdiot = await response.json()
+        const removedQuote = await response.json()
 
-        alert(`${removedIdiot.name} quote: has been removed`)
+        alert(`${removedQuote.name} quote: has been removed`)
         
-        removeIdiot(removedIdiot)
+        removeQuote(removedQuote)
     }
 
     return (
@@ -48,15 +48,15 @@ const List: FunctionComponent<{ idiots: Idiot[], removeIdiot: Dispatch<Idiot> }>
 
             <div>
                 <ul>
-                    {idiots.map( (idiot, index) => (
+                    {quotes.map( (quote, index) => (
                         <li key={index}>
                             <figure>
                                 <blockquote>
-                                    {idiot.quote}
+                                    {quote.quote}
                                 </blockquote>
                                 <figcaption>
-                                    <p>By: <cite>{idiot.name}</cite></p>
-                                    <span className='list__button--remove' onClick={() => handleDelete(idiot.id)}>🗑️🚽</span>
+                                    <p>By: <cite>{quote.name}</cite></p>
+                                    <span className='list__button--remove' onClick={() => handleDelete(quote.id)}>🗑️🚽</span>
                                 </figcaption>
                             </figure>
                         </li>

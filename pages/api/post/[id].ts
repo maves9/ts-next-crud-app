@@ -1,18 +1,18 @@
 import { PrismaClient } from '@prisma/client'
-import { Idiot } from '../../../types/types'
+import { Quote } from '../../../types/types'
 
 const prisma = new PrismaClient()
 
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
-    const idiotId = req.query.id
+    const quoteId = req.query.id
 
     if (req.method === 'DELETE') {
-        const idiot = await prisma.idiot.delete({
-            where: { id: Number(idiotId) },
+        const quote = await prisma.quote.delete({
+            where: { id: Number(quoteId) },
         })
-        res.json(idiot)
+        res.json(quote)
     } else {
         throw new Error(
         `The HTTP ${req.method} method is not supported at this route.`

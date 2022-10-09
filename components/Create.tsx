@@ -1,9 +1,9 @@
 import { useEffect, useState, FunctionComponent, FormEvent, Dispatch } from 'react'
 
-import type { Idiot, NewIdiot } from '../types/types'
+import type { Quote, NewQuote } from '../types/types'
 
-const Create: FunctionComponent<{moreIdiots: Dispatch<Idiot>}> = ({ moreIdiots }) => {
-    const [state, setState] = useState<NewIdiot>({'name': '', 'quote': ''})
+const Create: FunctionComponent<{moreQuotes: Dispatch<Quote>}> = ({ moreQuotes }) => {
+    const [state, setState] = useState<NewQuote>({'name': '', 'quote': ''})
 
     const addQuote = async (event: FormEvent) => {
         event.preventDefault()
@@ -15,9 +15,9 @@ const Create: FunctionComponent<{moreIdiots: Dispatch<Idiot>}> = ({ moreIdiots }
                 body: JSON.stringify(state)
             })
 
-            const addedIdiot: Idiot = await response.json()
+            const addedQuote: Quote = await response.json()
 
-            moreIdiots(addedIdiot)
+            moreQuotes(addedQuote)
         } catch (error) {
             console.error(error)
         }
@@ -25,7 +25,7 @@ const Create: FunctionComponent<{moreIdiots: Dispatch<Idiot>}> = ({ moreIdiots }
 
     useEffect(() => {
         setState({'name': '', 'quote': ''})
-    }, [moreIdiots])
+    }, [moreQuotes])
 
     const handleChange = ({target} : {target: HTMLInputElement | HTMLTextAreaElement}) => {
         const {name, value} = target
