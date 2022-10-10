@@ -1,11 +1,11 @@
 import type { NextPage } from 'next'
+import { Quote } from '../types/types'
 
 import Head from 'next/head'
 import { PrismaClient } from '@prisma/client'
 import { useState } from 'react'
 import Create from '../components/Create'
 import List from '../components/List'
-import { Quote } from '../types/types'
 
 const prisma = new PrismaClient()
 
