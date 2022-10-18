@@ -2,33 +2,41 @@ import type { NextPage } from 'next'
 
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { signIn, useSession } from 'next-auth/react'
-import { useState, FormEvent, FormEventHandler } from 'react'
+import { useEffect, useState, FormEvent, FormEventHandler } from 'react'
 
-const Signin: NextPage = (): JSX.Element => {
+const Signup: NextPage = (): JSX.Element => {
     const router = useRouter()
-    const [state, setState] = useState({'email': '', 'password': ''})
+
+    const [state, setState] = useState({ 'email': '', 'password': '' })
 
     const handleSubmit: FormEventHandler = async (event: FormEvent) => {
         event.preventDefault()
-        const {email, password} = state
-
         try {
-            const userFound = await signIn('credentials', {email, password, redirect: false})
+            const response = await fetch(`/api/auth/newuser`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(state)
+            })
 
-            console.log(userFound);   
-
+            const user = await response.json()
+            console.log(user)
         } catch (error) {
             console.error(error)
         }
     }
-    console.log(useSession());
-    
-    const handleChange = ({ target } : {target: HTMLInputElement}) => {
-        const {name, value} = target
+
+    const handleChange = ({ target }: { target: HTMLInputElement }) => {
+        const { name, value } = target
         setState({ ...state, [name]: value });
     }
 
+    useEffect(() => {
+        let token = sessionStorage.getItem('Token')
+
+        if (token) {
+            router.push('/')
+        }
+    }, [])
 
     return (
         <>
@@ -45,7 +53,7 @@ const Signin: NextPage = (): JSX.Element => {
                 }
             `}</style>
 
-            <h1>Sign in</h1>
+            <h1>Sign Up here</h1>
 
             <form onSubmit={handleSubmit}>
                 <input
@@ -65,11 +73,11 @@ const Signin: NextPage = (): JSX.Element => {
                     placeholder="Password"
                     value={state.password}
                 />
-                <button>Log in</button>
+                <button>Sign me up</button>
             </form>
         </>
     )
 
 }
 
-export default Signin
+export default Signup

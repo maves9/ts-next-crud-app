@@ -2,10 +2,12 @@ import type { NextPage } from 'next'
 import { Quote } from '../types/types'
 
 import Head from 'next/head'
+import Link from 'next/link'
 import { PrismaClient } from '@prisma/client'
 import { useState } from 'react'
 import Create from '../components/Create'
 import List from '../components/List'
+import { useSession } from 'next-auth/react'
 
 const prisma = new PrismaClient()
 
@@ -18,6 +20,10 @@ export const getStaticProps = async () => {
 
 const Home: NextPage<{initialQuotes: Quote[]}> = ({ initialQuotes }) => {
   const [quotes, setQuotes] = useState<Quote[]>(initialQuotes)
+  const {status, data} = useSession()
+
+  console.log(status, data);
+  
 
   const moreQuotes = (addedQuote: Quote) => {
     setQuotes([...quotes, addedQuote])
@@ -35,15 +41,6 @@ const Home: NextPage<{initialQuotes: Quote[]}> = ({ initialQuotes }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <style jsx global>{`
-        body {
-          background: #222;
-          color: #fff;
-          margin: 0;
-          font-family: cursive;
-        }
-      `}</style>
-
       <style jsx>{`
         main {
           max-width: 600px;
@@ -54,6 +51,10 @@ const Home: NextPage<{initialQuotes: Quote[]}> = ({ initialQuotes }) => {
           background: royalblue;
         }
       `}</style>
+
+      <nav>
+        <Link href="./signin">Sign in here</Link>
+      </nav>
 
       <main>
         <List quotes={quotes} removeQuote={removeQuote} />
