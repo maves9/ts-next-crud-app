@@ -1,14 +1,19 @@
-import NextAuth, { Session } from "next-auth"
+import NextAuth, { Session, NextAuthOptions } from "next-auth"
 import CredentialsProvider from 'next-auth/providers/credentials'
 
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import { NextAuthOptions } from 'next-auth'
 import { prisma } from '../../../utils/prisma.server'
 import { login } from "../../../utils/auth.server"
 
 type LoginCredentials = {
-    email: string
-    password: string
+  email: string
+  password: string
+}
+
+type User = {
+  id: number
+  email: string
+  role: string
 }
 
 const authOptions: NextAuthOptions = {
@@ -17,16 +22,8 @@ const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       credentials: {},
-      async authorize({email, password}: LoginCredentials) {
-
-        const user = await login({ email, password })
-        
-        //const userr = { id: 1, name: "J Smith", email: "jsmith@example.com" }
-        if (user) {
-          return user
-        } else {
-          return null
-        }
+      async authorize ({email, password}: LoginCredentials) {
+        return await login({ email, password }) ?? null
       }
     })
   ],
@@ -39,10 +36,7 @@ const authOptions: NextAuthOptions = {
 
   callbacks: {
     async jwt({token, user}) {
-      if (user) {
-        token.role = user.role
-      }
-      return token
+      return {...token, role: user ? user.role : null}
     },
     
     // Returns new session

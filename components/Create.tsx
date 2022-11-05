@@ -56,6 +56,7 @@ const Create: FunctionComponent<{moreQuotes: Dispatch<Quote>}> = ({ moreQuotes }
                     cursor: pointer;
                 }
             `}</style>
+
             <form onSubmit={addQuote}>
                 <input
                     autoFocus

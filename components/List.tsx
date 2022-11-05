@@ -1,8 +1,25 @@
 
+import type { FunctionComponent } from 'react'
 import { Quote } from '../types/types'
-import type { FunctionComponent, Dispatch } from 'react'
 
-const List: FunctionComponent<{ quotes: Quote[], removeQuote: Dispatch<Quote> }> = ({ quotes, removeQuote }) => {
+import { useState } from 'react'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
+import Create from './Create'
+
+const List: FunctionComponent<{ initialQuotes: Quote[] }> = (props) => {
+    console.log(props);
+    
+    const [parent] = useAutoAnimate<HTMLUListElement>()
+    const [quotes, setQuotes] = useState<Quote[]>(props.initialQuotes)
+  
+    const moreQuotes = (addedQuote: Quote) => {
+      setQuotes([...quotes, addedQuote])
+    }
+  
+    const removeQuote = (removedQuote: Quote) => {
+      setQuotes(quotes.filter((item) => item.id !== removedQuote.id))
+    }
+
     const handleDelete = async (id: number) => {
         const response = await fetch(`/api/post/${id}`, { method: 'DELETE' })
         const removedQuote = await response.json()
@@ -15,9 +32,6 @@ const List: FunctionComponent<{ quotes: Quote[], removeQuote: Dispatch<Quote> }>
     return (
         <>
             <style jsx>{`
-                div {
-                    flex: 1;
-                }
                 figure {
                     margin: 0;
                     padding: 16px;
@@ -25,6 +39,7 @@ const List: FunctionComponent<{ quotes: Quote[], removeQuote: Dispatch<Quote> }>
                     border-radius: 8px;
                 }
                 ul {
+                    flex: 1;
                     list-style: none;
                     display: flex;
                     flex-direction: column;
@@ -46,23 +61,23 @@ const List: FunctionComponent<{ quotes: Quote[], removeQuote: Dispatch<Quote> }>
                 }
             `}</style>
 
-            <div>
-                <ul>
-                    {quotes.map( (quote, index) => (
-                        <li key={index}>
-                            <figure>
-                                <blockquote>
-                                    {quote.quote}
-                                </blockquote>
-                                <figcaption>
-                                    <p>By: <cite>{quote.name}</cite></p>
-                                    <span className='list__button--remove' onClick={() => handleDelete(quote.id)}>🗑️🚽</span>
-                                </figcaption>
-                            </figure>
-                        </li>
-                    ))}
-                </ul>
-            </div>
+            <ul ref={parent}>
+                {quotes.map( (quote, index) => (
+                    <li key={index}>
+                        <figure>
+                            <blockquote>
+                                {quote.quote}
+                            </blockquote>
+                            <figcaption>
+                                <p>By: <cite>{quote.name}</cite></p>
+                                <span className='list__button--remove' onClick={() => handleDelete(quote.id)}>🗑️</span>
+                            </figcaption>
+                        </figure>
+                    </li>
+                ))}
+            </ul>
+
+            <Create moreQuotes={moreQuotes} />
         </>
     )
 }

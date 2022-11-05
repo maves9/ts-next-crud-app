@@ -1,5 +1,6 @@
 import type { AppProps } from 'next/app'
 
+import Head from 'next/head'
 import { SessionProvider } from "next-auth/react"
 import { useState } from 'react'
 
@@ -18,7 +19,15 @@ function App({Component, pageProps}: AppProps) {
         body, a {
           color: #fff;
         }
+        button {
+          cursor: pointer;
+        }
       `}</style>
+
+      <Head>
+        <meta charSet="UTF-8" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
 
       <SessionProvider session={pageProps.session}>
           <Component {...pageProps} />

@@ -10,7 +10,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
     if (req.method === 'DELETE') {
         const quote: Quote = await prisma.quote.delete({
-            where: { id: quoteId },
+            where: { id: Number(quoteId) },
         })
 
         res.json(quote)
