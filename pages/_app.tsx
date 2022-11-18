@@ -1,10 +1,11 @@
 import type { AppProps } from 'next/app'
 
 import Head from 'next/head'
+import Layout from "../components/Layout"
 import { SessionProvider } from "next-auth/react"
 import { useState } from 'react'
 
-function App({Component, pageProps}: AppProps) {
+function App({Component, pageProps}: {Component: NextComponentType}) {
   const [currentUser, setCurrentUser] = useState(null)
 
   return (
@@ -30,7 +31,9 @@ function App({Component, pageProps}: AppProps) {
       </Head>
 
       <SessionProvider session={pageProps.session}>
+        <Layout>
           <Component {...pageProps} />
+        </Layout>
       </SessionProvider>
     </>
   )

@@ -7,7 +7,7 @@ import { signIn, useSession } from 'next-auth/react'
 import { useState, useEffect } from 'react'
 
 const Signin: NextPage = (): JSX.Element => {
-    const data = useSession()
+    const { data, status } = useSession()
     const router = useRouter()
     const [state, setState] = useState({'email': '', 'password': ''})
 
@@ -29,9 +29,9 @@ const Signin: NextPage = (): JSX.Element => {
     }
 
     useEffect( () => {
-        console.log(data);
-        
-        
+        if (status === 'authenticated') {
+            router.push('/')
+        }
     }, [handleSubmit])
 
     return (

@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import { Quote } from '../../../types/types'
+import {  } from "next-auth"
 
 const prisma = new PrismaClient()
 

@@ -6,11 +6,9 @@ import { useState } from 'react'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import Create from './Create'
 
-const List: FunctionComponent<{ initialQuotes: Quote[] }> = (props) => {
-    console.log(props);
-    
+const List: FunctionComponent<{ initialQuotes: Quote[] }> = ({ initialQuotes }): JSX.Element => {
     const [parent] = useAutoAnimate<HTMLUListElement>()
-    const [quotes, setQuotes] = useState<Quote[]>(props.initialQuotes)
+    const [quotes, setQuotes] = useState<Quote[]>(initialQuotes)
   
     const moreQuotes = (addedQuote: Quote) => {
       setQuotes([...quotes, addedQuote])
@@ -25,7 +23,6 @@ const List: FunctionComponent<{ initialQuotes: Quote[] }> = (props) => {
         const removedQuote = await response.json()
 
         alert(`${removedQuote.name} quote: has been removed`)
-        
         removeQuote(removedQuote)
     }
 
@@ -65,9 +62,7 @@ const List: FunctionComponent<{ initialQuotes: Quote[] }> = (props) => {
                 {quotes.map( (quote, index) => (
                     <li key={index}>
                         <figure>
-                            <blockquote>
-                                {quote.quote}
-                            </blockquote>
+                            <blockquote>{quote.quote}</blockquote>
                             <figcaption>
                                 <p>By: <cite>{quote.name}</cite></p>
                                 <span className='list__button--remove' onClick={() => handleDelete(quote.id)}>🗑️</span>
